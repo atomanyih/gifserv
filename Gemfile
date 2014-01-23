@@ -4,3 +4,4 @@ source 'https://rubygems.org'
 gem 'rails', '4.0.0'
 
 gem 'pg', group: :production
+gem 'sqlite3', group: [:development, :test]

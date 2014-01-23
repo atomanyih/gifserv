@@ -14,5 +14,4 @@ private
   def images
     Dir[Rails.root.join("app","assets","images","*.gif")]
   end
-  
 end
