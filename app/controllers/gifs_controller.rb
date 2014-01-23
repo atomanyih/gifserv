@@ -1,17 +1,24 @@
+require 'open-uri'
+require 'httparty'
+
 class GifsController < ApplicationController
-  def show
-    render text: images.to_s
-  end
-
   def random_gif
-    image = File.open(images.sample)
-    
-    send_data image.read, type: "image/gif", disposition: "inline"
+    image_url = get_images_from_album(params[:album_id]).sample
+    send_data URI(image_url).read, type: "image/gif", disposition: "inline" if image_url
   end
 
-private
-  
-  def images
-    Dir[Rails.root.join("app","assets","images","*.gif")]
+  def get_images_from_album(album_id)
+    client_id = 'shit'
+
+    response = HTTParty.get("https://api.imgur.com/3/album/#{album_id}",
+      headers: {
+        "Authorization" => "Client-ID #{client_id}"
+    })
+    if response.success?
+      album_data = JSON.parse(response.body)
+      album_data["data"]["images"].map{|i| i["link"] }
+    else
+      []
+    end
   end
 end
