@@ -8,7 +8,7 @@ class GifsController < ApplicationController
   end
 
   def get_images_from_album(album_id)
-    client_id = 'shit'
+    client_id = ENV["IMGUR_CLIENT_ID"]
 
     response = HTTParty.get("https://api.imgur.com/3/album/#{album_id}",
       headers: {
